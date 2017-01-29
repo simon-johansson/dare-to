@@ -9,7 +9,7 @@ const config = require('./webpack.config.js');
 // const db = require('./db');
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
-const port = process.env.port || '30747';
+const port = process.env.PORT || '30747';
 const app = express();
 
 const server = http.createServer(app);

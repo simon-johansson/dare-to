@@ -10,7 +10,7 @@
     "copy": "mkdir -p dist/ && cp -r public/* dist/",
     "webpack": "webpack --config ./webpack.production.config.js --progress --profile --colors",
     "build": "npm run clean && npm run copy && npm run webpack",
-    "postinstall": "npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
