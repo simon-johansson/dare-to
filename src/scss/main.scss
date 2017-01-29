@@ -1,6 +1,15 @@
 
 @import url(https://fonts.googleapis.com/css?family=Rubik:300,300i,500,500i|Space+Mono:400,700);
 
+@font-face {
+  font-family: 'ios7-icon';
+  src: url('https://cdn.rawgit.com/simon-johansson/iOS7-icon-font/55826214/fonts/ios7-icon.woff') format('woff'),
+       url('https://cdn.rawgit.com/simon-johansson/iOS7-icon-font/55826214/fonts/ios7-icon.ttf') format('truetype'),
+       url('https://cdn.rawgit.com/simon-johansson/iOS7-icon-font/55826214/fonts/ios7-icon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 $font-heading: 'Space Mono', monospace;
 $font: 'Rubik', sans-serif;
 $dark-liver: rgba(80, 81, 79, 1);
@@ -13,6 +22,17 @@ $green-sheen: rgba(112, 193, 179, 1);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 *:focus {
@@ -31,32 +51,95 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 
+.iosIcon {
+  font-family: 'ios7-icon';
+  -webkit-text-rendering: geometricPrecision;
+  -moz-text-rendering: geometricPrecision;
+  -ms-text-rendering: geometricPrecision;
+  -o-text-rendering: geometricPrecision;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -ms-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  display: inline-block;
+}
+
+#myCanvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  // opacity: 0.3;
+}
+
 .hidden {
   display: none;
 }
 
 header {
-  text-align: center;
   width: 100%;
   border-bottom: 1px solid white;
   padding: 10px;
-  font-size: 20px;
   margin-bottom: 20px;
   color: white;
+  text-align: center;
+}
+
+.back {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 50px;
+  width: 60px;
+  line-height: 50px;
+}
+
+.heading {
   font-family: $font-heading;
+  font-size: 20px;
   font-weight: bold;
 }
 
-.upload {
+.send {
   display: block;
-  width: 80%;
+  width: 120px;
   margin: 20px auto;
   height: 40px;
   // border: 1px solid #000;
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: center;
   line-height: 40px;
-  background: white;
+  background: #98CBB4;
+
+  span {
+    font-size: 20px;
+    vertical-align: middle;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+}
+
+.sent {
+  z-index: 999;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #98CBB4;
+  text-align: center;
+
+  span {
+    font-size: 300px;
+    color: white;
+    font-weight: bold;
+    margin-top: 100px;
+  }
 }
 
 .Giphy {
@@ -66,10 +149,14 @@ header {
   // flex-direction: column;
   width: 100%;
 }
-.Giphy input {
-  width: calc(100% - 30px - 100px);
+.Giphy .textInput {
+  -webkit-appearance: none;
+  width: calc(100% - 140px);
   // margin: auto;
-  border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
   border: none;
   padding: 0 10px;
   margin-left: 10px;
@@ -80,18 +167,25 @@ header {
   width: 100%;
 }
 
-.Giphy-toggle {
+.Giphy-search {
   display: inline-block;
-  width: 80px;
-  margin: 0 10px;
+  width: 100px;
+  // margin: 0 10px;
   height: 40px;
-  // border: 1px solid #000;
+  border-left: 1px solid #000;
   vertical-align: middle;
-  border-radius: 5px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
   text-align: center;
   line-height: 40px;
   background: white;
-  // float: right;
+  vertical-align: initial;
+
+  span {
+    font-weight: bold;
+    font-size: 20px;
+    vertical-align: middle;
+  }
 }
 
 // .Giphy-toggle {
@@ -118,7 +212,7 @@ header {
 // }
 .Giphy-controls {
   height: 1.5rem;
-  margin-top: 20px;
+  margin: 20px 0 10px;
   background-color: black;
 }
 .Giphy-controls:after {
@@ -129,21 +223,21 @@ header {
   position: absolute;
   transform: translateX(-50%);
 }
-.Giphy-prev:after {
-  content: "◀";
+.Giphy-prev,
+.Giphy-next {
+  // content: "◀";
+  font-weight: bold;
   color: white;
   line-height: 1.5rem;
   position: absolute;
-  left: 0.5rem;
   cursor: pointer;
+  font-size: 25px;
 }
-.Giphy-next:after {
-  content: "▶";
-  color: white;
-  line-height: 1.5rem;
-  position: absolute;
+.Giphy-prev {
+  left: 0.5rem;
+}
+.Giphy-next {
   right: 0.5rem;
-  cursor: pointer;
 }
 
 .Giphy-prev:hover:after,

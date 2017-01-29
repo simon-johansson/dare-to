@@ -37,6 +37,7 @@
     "jade": "^1.11.0",
     "jimp": "^0.2.27",
     "jquery": "^3.1.0",
+    "jquery-bridget": "^2.0.1",
     "masonry-layout": "^4.1.1",
     "nedb": "^1.8.0",
     "node-sass": "^3.8.0",

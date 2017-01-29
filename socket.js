@@ -22,6 +22,8 @@ const onConnection = socket => {
     //   punchout: data.punchout
     // });
 
+    // console.log(data);
+
     io.emit('new contribution', data);
   });
 

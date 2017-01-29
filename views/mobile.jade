@@ -24,9 +24,15 @@ mixin text-question(questionNr, text)
     block
 
 block content
-  header UPLOAD A GIF
-  input(type="search")
-  div.upload.hidden Upload
+  header
+    span.back.hidden Back
+    span.heading UPLOAD A GIF
+  input.textInput(type="search" placeholder="...")
+  .send.hidden
+    span.iosIcon 
+    | Send
+  .sent.hidden
+    span.iosIcon 
 
 
 
