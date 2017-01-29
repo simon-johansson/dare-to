@@ -1,0 +1,32 @@
+extends layout
+
+mixin row
+  .pure-g
+    .pure-u-1-1
+      block
+
+mixin alternatives(questionNr, alts)
+  .alternatives
+    .pure-form
+      ul
+        each alt, index in alts
+          li
+            input(id="question-#{questionNr}-#{index}" type='radio', name="question-#{questionNr}" value="#{index}")
+            label(for="question-#{questionNr}-#{index}") !{alt}
+            .check
+
+mixin text-question(questionNr, text)
+  +row
+    .question
+      //- span.number #{questionNr}
+      h2.text!= text
+  +row
+    block
+
+block content
+  header UPLOAD A GIF
+  input(type="search")
+  div.upload.hidden Upload
+
+
+
