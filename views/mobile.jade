@@ -24,15 +24,57 @@ mixin text-question(questionNr, text)
     block
 
 block content
-  header
-    span.back.hidden Back
-    span.heading UPLOAD A GIF
-  input.textInput(type="search" placeholder="...")
-  .send.hidden
-    span.iosIcon 
-    | Send
-  .sent.hidden
-    span.iosIcon 
+
+  .main-screen
+    h1 CONTRIBUTE TO THE ARTBOARD
+
+    p.go-to-gif Upload a GIF  <span class="iosIcon"></span>
+    p.go-to-text Upload some text  <span class="iosIcon"></span>
+    p.go-to-emoji Throw emojis  <span class="iosIcon"></span>
+
+  .upload-gif.hidden
+    header
+      span.back Back
+      span.heading UPLOAD A GIF
+
+    input.textInput.gif-input(type="search" placeholder="...")
+    .sorry.hidden
+      p.big Sorry no GIF found 😭
+      p.small Try only searching for one or two words, like "awesome" or "bleeding edge"
+    .send.hidden
+      span.iosIcon 
+      | Upload GIF
+    .sent.hidden
+      span.iosIcon 
+
+  .upload-text.hidden
+    header
+      span.back Back
+      span.heading UPLOAD SOME TEXT
+
+  .party-mode.noselect.hidden
+    header
+      span.back Back
+      span.heading THROW EMOJIS
+    .emoji-picker
+      .emoji 🦄
+      .emoji 😻
+      .emoji 🍾
+      .emoji 👊
+      .emoji 🤖
+      .emoji 🎉
+      .emoji 💪
+      .emoji 📱
+      .emoji 💘
+      .emoji 🎊
+      .emoji 📈
+      .emoji 🚀
+      .emoji ✈️
+      .emoji 🎯
+      .emoji 🐣
+    .touch-area.hidden
+      p Touch the screen to throw <span></span>
+
 
 
 

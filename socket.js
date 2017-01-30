@@ -27,6 +27,10 @@ const onConnection = socket => {
     io.emit('new contribution', data);
   });
 
+  socket.on('fireworks', (data) => {
+    io.emit('new fireworks', data);
+  });
+
   // socket.on('clean', (data, callback) => {
   //   db.remove(() => {
   //     callback();

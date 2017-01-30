@@ -1,7 +1,9 @@
 const path = require('path');
 const http = require('http');
 
+const request = require('request');
 const express = require('express');
+const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -35,6 +37,11 @@ if (isDeveloping) {
   app.use(express.static(path.join(__dirname, 'dist')));
 }
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
+
 app.get('/', (req, res, next) => {
   res.render('mobile', {
     title: 'Mobile'
@@ -59,6 +66,19 @@ app.get('/artboard', (req, res, next) => {
   res.render('artboard', {
     // scores: sortedScores,
     title: 'Dare to...'
+  });
+});
+
+app.post('/gif', (req, res) => {
+  // console.log(req.body);
+  request({
+    url: 'http://api.giphy.com/v1/gifs/search',
+    qs: req.body,
+  }, (error, response, body) => {
+    if (!error) {
+      // console.log(body);
+      res.json(body);
+    }
   });
 });
 
