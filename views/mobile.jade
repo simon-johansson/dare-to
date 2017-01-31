@@ -37,7 +37,7 @@ block content
       span.back Back
       span.heading UPLOAD A GIF
 
-    input.textInput.gif-input(type="search" placeholder="...")
+    input.giphy-input(type="search" placeholder="...")
     .sorry.hidden
       p.big Sorry no GIF found 😭
       p.small Try only searching for one or two words, like "awesome" or "bleeding edge"
@@ -47,10 +47,43 @@ block content
     .sent.hidden
       span.iosIcon 
 
+    .loadingWrapper.loadingColorDark.hidden
+      .sk-fading-circle
+        .skCircle
+        .sk-circle2
+        .sk-circle3
+        .sk-circle4
+        .sk-circle5
+        .sk-circle6
+        .sk-circle7
+        .sk-circle8
+        .sk-circle9
+        .sk-circle10
+        .sk-circle11
+        .sk-circle12
+
   .upload-text.hidden
     header
       span.back Back
       span.heading UPLOAD SOME TEXT
+
+    .description
+      p Write one or two words. <br/>Max 10 characters
+
+    .input-wrapper
+      span.amount 10
+      input.text-input(placeholder="..." maxlength="10")
+
+    .preview
+      span
+
+    .send-text.hidden
+      span.iosIcon 
+      | Upload text
+
+    .sent.hidden
+      span.iosIcon 
+
 
   .party-mode.noselect.hidden
     header

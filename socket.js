@@ -22,9 +22,20 @@ const onConnection = socket => {
     //   punchout: data.punchout
     // });
 
-    // console.log(data);
-
     io.emit('new contribution', data);
+  });
+
+  socket.on('text contribution', (data, callback) => {
+    callback();
+
+    // db.insert({
+    //   name: data.team.name,
+    //   img: data.team.image ? id + '.jpg' : null,
+    //   score: score,
+    //   punchout: data.punchout
+    // });
+
+    io.emit('new text contribution', data);
   });
 
   socket.on('fireworks', (data) => {

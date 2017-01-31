@@ -4,84 +4,68 @@ import jQueryBridget from 'jquery-bridget';
 import Masonry from 'masonry-layout';
 jQueryBridget( 'masonry', Masonry, $ );
 
-// import './fireworks';
-
 const socket = io('');
-// const refreshInterval = 1800000; // 30 minutes
-
-// setTimeout(() => {
-//   location.reload();
-// }, refreshInterval);
-
 const $grid = $('.grid');
-// const stampElem = grid.querySelector('.stamp');
-$grid.masonry({
-  // options
-  itemSelector: '.grid-item',
-  columnWidth: '.grid-sizer',
-  percentPosition: true,
-  // gutter: 10
-}).masonry('layout');
+var gridSize = 2;
 
-// let msnry = new Masonry( grid, {
-//   itemSelector: '.grid-item',
-//   columnWidth: '.grid-sizer',
-//   percentPosition: true,
-//   gutter: 10
-// });
-// msnry.stamp( stampElem );
-// msnry.layout();
+const gridIsFull = () => $(document).height() - 10 <= $grid.height();
+const setGrid = () => {
+  $grid.masonry({
+    itemSelector: '.grid-item-' + gridSize,
+    columnWidth: '.grid-sizer-' + gridSize,
+    percentPosition: true,
+  }).masonry('layout');
+};
+
+setGrid();
 
 $(window).on('load', function() {
   $grid.masonry('layout');
 });
 
+setInterval(function() {
+  if (gridSize < 10 && gridIsFull()) {
+    gridSize += 1;
+
+    $('.grid-item')
+      .removeClass((index, className) => (className.match (/(^|\s)grid-item-\S+/g) || []).join(' '))
+      .addClass('grid-item-' + gridSize);
+
+    $('.grid-sizer')
+      .removeClass((index, className) => (className.match (/(^|\s)grid-sizer-\S+/g) || []).join(' '))
+      .addClass('grid-sizer-' + gridSize);
+
+    setGrid();
+  }
+}, 1000);
+
 socket.on('new contribution', data => {
-  console.log(data);
   const $element = $(`
-    <div class="grid-item">
+    <div class="grid-item grid-item-${gridSize}">
       <img src="${data.url}"/>
     </div>`
   );
-  console.log(data, $element);
+
   $grid
     .append($element)
     .masonry('appended', $element)
     .masonry('layout');
 });
 
-// socket.on('disconnect', () => {
-//   location.reload();
-// });
+socket.on('new text contribution', data => {
+  const $element = $(`
+    <div class="grid-item grid-item-${gridSize}">
+      <span class="${data.className}">${data.text}</span>
+    </div>`
+  );
 
-setInterval(function() {
-  // console.log($(document).height(), $('.grid').height());
-  if ($(document).height() - 5 <= $('.grid').height()) {
-    $('.grid-item')
-      .addClass('grid-item-small')
-      .removeClass('grid-item');
-
-    $('.grid-sizer')
-      .addClass('grid-sizer-small')
-      .removeClass('grid-sizer');
-
-    $grid.masonry({
-      itemSelector: '.grid-item-small',
-      columnWidth: '.grid-sizer-small',
-      percentPosition: true,
-      // gutter: 10
-    }).masonry('layout');
-  }
-}, 3000);
-
-// setInterval(function() {
-// }, 2000);
-
-// ----------------------------------------------------
+  $grid
+    .append($element)
+    .masonry('appended', $element)
+    .masonry('layout');
+});
 
 socket.on('new fireworks', data => {
-  // console.log(data);
-
   const $el = $(`
     <div class="fireworks" style="top:${data.y}%; left: ${data.x}%">
       <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span>

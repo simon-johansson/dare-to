@@ -1,5 +1,6 @@
 
 import $ from 'jquery';
+import _ from 'lodash';
 const socket = io('');
 // import $ from './jquery';
 
@@ -69,6 +70,7 @@ $(document).ready(function() {
 
   // Gif screen
   const $uploadGifScreen = $('.upload-gif');
+  const $loadingWrapper = $('.loadingWrapper');
 
   // Text screen
   const $uploadTextScreen = $('.upload-text');
@@ -76,11 +78,16 @@ $(document).ready(function() {
   $goToGif.on('click', () => {
     $mainScreen.addClass('hidden');
     $uploadGifScreen.removeClass('hidden');
-    $('.gif-input').focus();
+    $('.giphy-input').focus();
   });
   $goToText.on('click', () => {
     $mainScreen.addClass('hidden');
     $uploadTextScreen.removeClass('hidden');
+    $('.text-input').focus();
+    $uploadTextScreen
+      .find('.preview span')
+      .removeClass('dream machine future')
+      .addClass(_.sample(['dream', 'machine', 'future']));
   });
   $goToEmoji.on('click', () => {
     $mainScreen.addClass('hidden');
@@ -114,22 +121,71 @@ $(document).ready(function() {
     $mainScreen.removeClass('hidden');
   });
 
-  $uploadTextScreen.find('.back').on('click', function() {
-    $uploadTextScreen.addClass('hidden');
-    $mainScreen.removeClass('hidden');
-  });
+  (function() {
+    const $input = $('input.text-input');
+    const $sentOverlay = $uploadTextScreen.find('.sent');
+    let val = '';
+    let amount = 0;
+    const onReset = () => {
+      $input.val('').blur();
+      $uploadTextScreen.find('.preview span').text('');
+      $uploadTextScreen.find('.amount').text(10);
+      $('.send-text').addClass('hidden');
+    };
+    const onSend = () => {
+      const payload = {
+        text: val,
+        className: $uploadTextScreen.find('.preview span').attr('class'),
+      };
+      socket.emit('text contribution', payload, (data) => {
+        $sentOverlay.removeClass('hidden');
+        onReset();
+      });
+    };
+
+    $input
+      .on('click', function() { $(this).focus(); })
+      .on('input', function(e) {
+        val = $(this).val();
+
+        $uploadTextScreen.find('.preview span').text(val);
+        $uploadTextScreen.find('.amount').text(10 - val.length);
+
+        if (val) {
+          $('.send-text').removeClass('hidden');
+        } else {
+          $('.send-text').addClass('hidden');
+        }
+      })
+      .on('keypress', function(e) {
+        if (e.which === 13) {
+          onSend();
+        }
+      });
+
+    $('.send-text').on('click', onSend);
+
+    $uploadTextScreen.find('.back').on('click', function() {
+      onReset();
+      $sentOverlay.addClass('hidden');
+      $uploadTextScreen.addClass('hidden');
+      $mainScreen.removeClass('hidden');
+    });
+  })();
 
   (function() {
     var items = [];
     var itemIndex = 0;
     var $gif = null;
+    var $loading = null;
+    var imageToShow = null;
     var $controls = null;
     var preloaded = [];
 
     function preload(items) {
       items.forEach((item, index) => {
         preloaded[index] = new Image();
-        preloaded[index].src = item.images["downsized"].url
+        preloaded[index].src = item.images["downsized"].url;
       });
     }
 
@@ -139,12 +195,31 @@ $(document).ready(function() {
       } else if (difference > 0) {
         if (itemIndex < items.length - 1) { itemIndex++; }
       }
-      $gif.attr("src", items[itemIndex].images["downsized"].url);
+      imageToShow ? imageToShow.onload = () => {} : void(0);
+      imageToShow = preloaded[itemIndex];
+      var onComplete = () => {
+        $loading.addClass('hidden');
+        $gif.removeClass('hidden');
+        $gif.attr("src", items[itemIndex].images["downsized"].url);
+        $gif.blur();
+        imageToShow.onload = () => {};
+      };
+
+      $loading.addClass('hidden');
       $controls.attr("data-count", (itemIndex + 1) + " of " + items.length);
-      $gif.blur();
+      if (imageToShow.complete){
+        onComplete();
+      }
+      else {
+        $gif.addClass('hidden');
+        $loading.removeClass('hidden');
+        imageToShow.onload = function() {
+          onComplete();
+        };
+      }
     }
 
-    const $input = $('input');
+    const $input = $('input.giphy-input');
     const $giphy = $input.wrap("<div class='Giphy'></div>").closest(".Giphy");
     const $search = $(`
       <div class='Giphy-search'>
@@ -159,10 +234,10 @@ $(document).ready(function() {
       </div>`).hide().appendTo($giphy);
     const $prev = $controls.find(".Giphy-prev");
     const $next = $controls.find(".Giphy-next");
-    const $send = $('.send');
-    const $back = $('.back');
-    const $sorry = $('.sorry');
-    const $sentOverlay = $('.sent');
+    const $send = $uploadGifScreen.find('.send');
+    const $back = $uploadGifScreen.find('.back');
+    const $sorry = $uploadGifScreen.find('.sorry');
+    const $sentOverlay = $uploadGifScreen.find('.sent');
     const onReset = () => {
       $controls.hide();
       if ($gif && $gif.remove) {
@@ -175,32 +250,58 @@ $(document).ready(function() {
     };
     const onSearch = () => {
       $search.off('click');
+      $loadingWrapper.removeClass('hidden');
       onReset();
       $.ajax({
         method: "POST",
         url: "/gif",
+        // url: "http://api.giphy.com/v1/gifs/search",
         data: {
           q: $input.val(),
           api_key: "dc6zaTOxFJmzC",
-          rating: "g"
+          rating: "pg-13"
         }
       }).then(response => {
+        $loadingWrapper.addClass('hidden');
         $search.on('click', onSearch);
         const res = JSON.parse(response);
-        items = (res && res.data) || [];
+        const filteredRes = _.filter(res.data, o => parseInt(o.images.downsized.size) < 800000);
+        console.log(filteredRes);
+        // const res = response;
+        items = filteredRes || [];
         const item = items && items.length ? items[0] : {};
-        if (item.images) {
+        if (items.length) {
+          preload(items);
+
           $gif = $("<img />", {
             src: item.images["downsized"].url
           });
 
-          preload(items);
+          $loading = $(`
+            <div class="loadingWrapper loadingColorDark hidden">
+              <div class="sk-fading-circle">
+                <div class="skCircle"></div>
+                <div class="sk-circle2"></div>
+                <div class="sk-circle3"></div>
+                <div class="sk-circle4"></div>
+                <div class="sk-circle5"></div>
+                <div class="sk-circle6"></div>
+                <div class="sk-circle7"></div>
+                <div class="sk-circle8"></div>
+                <div class="sk-circle9"></div>
+                <div class="sk-circle10"></div>
+                <div class="sk-circle11"></div>
+                <div class="sk-circle12"></div>
+              </div>
+            </div>
+          `);
 
           itemIndex = 0;
           $giphy.addClass("Giphy--search");
           $send.removeClass("hidden");
           $controls.show();
           $gif.appendTo($giphy);
+          $loading.appendTo($giphy);
           $controls.attr("data-count", (itemIndex + 1) + " of " + items.length);
         } else {
           $sorry.removeClass('hidden');
@@ -234,7 +335,7 @@ $(document).ready(function() {
     $back.on('click', function() {
       // $back.addClass('hidden');
       $sentOverlay.addClass('hidden');
-      $('.gif-input').val('');
+      $('.giphy-input').val('');
       onReset();
 
       $uploadGifScreen.addClass('hidden');

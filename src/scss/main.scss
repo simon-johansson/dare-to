@@ -1,5 +1,8 @@
 
 @import url(https://fonts.googleapis.com/css?family=Rubik:300,300i,500,500i|Space+Mono:400,700);
+@import url(http://fonts.googleapis.com/css?family=Mr+Dafoe);
+
+@import 'loading';
 
 @font-face {
   font-family: 'ios7-icon';
@@ -94,7 +97,8 @@ header {
   font-weight: bold;
 }
 
-.sorry {
+.sorry,
+.description p {
   color: white;
   font-size: 20px;
   text-align: center;
@@ -111,7 +115,33 @@ header {
   }
 }
 
-.send {
+.input-wrapper {
+  position: relative;
+
+  .amount {
+    position: absolute;
+    color: #87878C;
+    font-size: 20px;
+    top: 8px;
+    right: 20px;
+  }
+}
+
+.preview {
+  margin-top: 10px;
+  height: 150px;
+  line-height: 150px;
+
+  span {
+    text-align: center;
+    display: block;
+    white-space: nowrap;
+    font-size: 70px;
+  }
+}
+
+.send,
+.send-text {
   display: block;
   width: 80%;
   margin: 20px auto;
@@ -148,14 +178,8 @@ header {
   }
 }
 
-.Giphy {
-  position: relative;
-  display: block;
-  // display: flex;
-  // flex-direction: column;
-  width: 100%;
-}
-.Giphy .textInput {
+.Giphy .giphy-input,
+.text-input {
   -webkit-appearance: none;
   width: calc(100% - 140px);
   // margin: auto;
@@ -169,10 +193,20 @@ header {
   display: inline-block;
   height: 40px;
 }
+.text-input {
+  border-radius: 3px;
+  width: calc(100% - 20px);
+}
+.Giphy {
+  position: relative;
+  display: block;
+  // display: flex;
+  // flex-direction: column;
+  width: 100%;
+}
 .Giphy img {
   width: 100%;
 }
-
 .Giphy-search {
   display: inline-block;
   width: 100px;
@@ -413,8 +447,9 @@ slideRight
 }
 
 .dare-to {
-  font-size: 270px;
+  font-size: 220px;
   text-align: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 
   position: absolute;
   display: block;
@@ -423,7 +458,7 @@ slideRight
   line-height: 148px;
   height: 120px;
   // padding: 30px;
-  top: 50%;
+  top: 45%;
   // left: 42%;
   width: 100%;
   text-align: center;
@@ -433,22 +468,37 @@ slideRight
   margin-top: -80px;
 }
 
-.grid-sizer,
+$size: 100%;
+
+.grid-sizer-2, .grid-item-2 {
+  width: $size / 2;
+}
+.grid-sizer-3, .grid-item-3 {
+  width: $size / 3;
+}
+.grid-sizer-4, .grid-item-4 {
+  width: $size / 4;
+}
+.grid-sizer-5, .grid-item-5 {
+  width: $size / 5;
+}
+.grid-sizer-6, .grid-item-6 {
+  width: $size / 6;
+}
+.grid-sizer-7, .grid-item-7 {
+  width: $size / 7;
+}
+.grid-sizer-8, .grid-item-8 {
+  width: $size / 8;
+}
+.grid-sizer-9, .grid-item-9 {
+  width: $size / 9;
+}
+.grid-sizer-10, .grid-item-10 {
+  width: $size / 10;
+}
+
 .grid-item {
-  width: calc(20%);
-}
-
-.grid-sizer-small,
-.grid-item-small {
-  width: calc(10%);
-}
-
-.grid-item--width2 {
-  width: calc(40%) !important;
-}
-
-.grid-item,
-.grid-item-small{
   margin-top: -5px;
   // border: 1px solid red;
   img {
@@ -456,13 +506,11 @@ slideRight
   }
 
   span {
-    color: white;
-    font-size: 17px;
-    font-family: $font;
     text-align: center;
-    width: 100%;
     display: block;
-    padding: 10px;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
   }
 }
 
@@ -587,4 +635,33 @@ slideRight
       line-height: 30px;
     }
   }
+}
+
+.dream {
+  margin: 0px;
+  font-family: 'Mr Dafoe', cursive;
+  font-size: 35px;
+  color: #F975F7 ;
+  transform:rotate(-15deg);
+  -webkit-transform:rotate(-15deg); /* Safari and Chrome */
+  -webkit-text-stroke: 1px #f008b7;
+  -webkit-filter: drop-shadow(2px 2px 20px #f008b7);
+}
+.machine {
+  font-family: 'Mr Dafoe', cursive;
+  font-size: 35px;
+  transform:rotate(-15deg);
+  -webkit-transform:rotate(-15deg); /* Safari and Chrome */
+  color: #ed2121;
+  text-shadow: 1px 2px 0px #F9D2D2;
+}
+.future {
+  font-family: 'Mr Dafoe', cursive;
+  font-size: 35px;
+  color: #EB219B;
+  -webkit-text-fill-color: rgba(253, 90, 250, 1);
+  text-shadow: -2px -2px 0 #FFBAF2;
+  -webkit-filter: drop-shadow(3px 3px 1px #441F62);
+  -webkit-transform: skew(-5deg,-5deg);
+  font-weight: normal;
 }
