@@ -174,6 +174,7 @@ $(document).ready(function() {
       $('input').blur();
     };
     const onSearch = () => {
+      $search.off('click');
       onReset();
       $.ajax({
         method: "POST",
@@ -184,6 +185,7 @@ $(document).ready(function() {
           rating: "g"
         }
       }).then(response => {
+        $search.on('click', onSearch);
         const res = JSON.parse(response);
         items = (res && res.data) || [];
         const item = items && items.length ? items[0] : {};
