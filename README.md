@@ -1,5 +1,3 @@
 
-loading spinner
-Send text
-Max amount gifs
+Max amount gifs, done?
 Fullscreen

@@ -66,6 +66,18 @@ socket.on('new text contribution', data => {
 });
 
 socket.on('new fireworks', data => {
+  console.log(data);
+
+  // const $span = $(`
+  //   <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span>
+  //   <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span>
+  // `);
+  // const $el = $('<div>', {
+  //   'class': 'fireworks',
+  //   'style': `top:${data.y}%; left: ${data.x}%`,
+  //   'html': $span,
+  // }).appendTo('body');
+
   const $el = $(`
     <div class="fireworks" style="top:${data.y}%; left: ${data.x}%">
       <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span>

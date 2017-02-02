@@ -152,9 +152,9 @@ $(document).ready(function() {
         $uploadTextScreen.find('.amount').text(10 - val.length);
 
         if (val) {
-          $('.send-text').removeClass('hidden');
+          $uploadTextScreen.find('.send-text').removeClass('hidden');
         } else {
-          $('.send-text').addClass('hidden');
+          $uploadTextScreen.find('.send-text').addClass('hidden');
         }
       })
       .on('keypress', function(e) {
@@ -266,7 +266,7 @@ $(document).ready(function() {
         $search.on('click', onSearch);
         const res = JSON.parse(response);
         const filteredRes = _.filter(res.data, o => parseInt(o.images.downsized.size) < 800000);
-        console.log(filteredRes);
+        // console.log(filteredRes);
         // const res = response;
         items = filteredRes || [];
         const item = items && items.length ? items[0] : {};
