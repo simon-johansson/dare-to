@@ -8,7 +8,10 @@ const socket = io('');
 const $grid = $('.grid');
 var gridSize = 2;
 
-const gridIsFull = () => $(document).height() - 10 <= $grid.height();
+const gridIsFull = () => {
+  // console.log($(window).height() - 50, $grid.height());
+  return $(window).height() - 50 <= $grid.height();
+};
 const setGrid = () => {
   $grid.masonry({
     itemSelector: '.grid-item-' + gridSize,
@@ -16,14 +19,7 @@ const setGrid = () => {
     percentPosition: true,
   }).masonry('layout');
 };
-
-setGrid();
-
-$(window).on('load', function() {
-  $grid.masonry('layout');
-});
-
-setInterval(function() {
+const gridResize = () => {
   if (gridSize < 10 && gridIsFull()) {
     gridSize += 1;
 
@@ -37,6 +33,16 @@ setInterval(function() {
 
     setGrid();
   }
+};
+
+setGrid();
+
+$(window).on('load', function() {
+  $grid.masonry('layout');
+});
+
+setInterval(function() {
+  gridResize();
 }, 1000);
 
 socket.on('new contribution', data => {
@@ -63,10 +69,12 @@ socket.on('new text contribution', data => {
     .append($element)
     .masonry('appended', $element)
     .masonry('layout');
+
+  gridResize();
 });
 
 socket.on('new fireworks', data => {
-  console.log(data);
+  // console.log(data);
 
   // const $span = $(`
   //   <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span> <span>${data.emoji}</span>
