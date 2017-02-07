@@ -103,7 +103,9 @@ $(document).ready(function() {
         .text(emoji);
   });
 
-  $touchArea.on('click', function(event) {
+  // let timer;
+  $touchArea.on('click', _.throttle(function(event) {
+    // if (timer) return clearTimeout(timer);
     const payload = {
       y: Math.floor((event.clientY / window.innerHeight) * 100),
       x: Math.floor((event.clientX / window.innerWidth) * 100),
@@ -111,7 +113,8 @@ $(document).ready(function() {
     };
 
     socket.emit('fireworks', payload);
-  });
+    // timer = setTimeout(() => {}, 1000);
+  }, 500));
 
   $partyModeScreen.find('.back').on('click', function() {
     $partyModeScreen.addClass('hidden');

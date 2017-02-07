@@ -585,44 +585,44 @@ $size: 100%;
 }
 
 @keyframes nthChild1 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(0deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(0, -200px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(0, -160px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild2 {
-  0% { transform: translate(0, 0); font-size: 150px;}
+  0% { transform: translate(0, 0) rotate(180deg); font-size: 130px;}
   70% { opacity: 1 }
-  100% { transform: translate(-100px, -100px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(-80px, -80px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild3 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(180deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(-200px, 0px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(-160px, 0px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild4 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(180deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(-100px, 100px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(-80px, 80px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild5 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(0deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(0, 200px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(0, 160px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild6 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(-180deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(100px, 100px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(80px, 80px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild7 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(-180deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(200px, 0px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(160px, 0px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 @keyframes nthChild8 {
-  0% { transform: translate(0, 0); font-size: 150px; }
+  0% { transform: translate(0, 0) rotate(-180deg); font-size: 130px; }
   70% { opacity: 1 }
-  100% { transform: translate(100px, -100px); font-size: 70px; opacity: 0 }
+  100% { transform: translate(80px, -80px) rotate(0deg); font-size: 70px; opacity: 0 }
 }
 
 .emoji-picker{
