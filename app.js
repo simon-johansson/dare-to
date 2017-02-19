@@ -69,6 +69,12 @@ app.get('/artboard', (req, res, next) => {
   });
 });
 
+app.get('/release-party', (req, res, next) => {
+  res.render('release-party', {
+    title: 'Dare to...'
+  });
+});
+
 app.post('/gif', (req, res) => {
   // console.log(req.body);
   request({
